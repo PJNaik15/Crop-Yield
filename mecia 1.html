@@ -1,0 +1,156 @@
+[12:22 am, 06/09/2024] Prayag Shah: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPK Value Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            display: b…
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPK Value from CSV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>NPK Value Calculator</h2>
+
+    <label for="rainfall">Enter Rainfall (mm):</label>
+    <input type="number" id="rainfall" placeholder="Rainfall in mm">
+
+    <label for="temperature">Enter Temperature (°C):</label>
+    <input type="number" id="temperature" placeholder="Temperature in °C">
+
+    <button class="btn" onclick="calculateNPK()">Calculate NPK</button>
+
+    <div class="output" id="npkOutput">
+        <!-- NPK value will be displayed here -->
+    </div>
+</div>
+
+<script src="file:///C:/Users/HP/Downloads/mecia%201.a"></script>
+
+<script>
+    // Path to the CSV file (replace with the actual path to your CSV file)
+    const csvFilePath = 'C:\Crop_Recommendation.csv';
+
+    let npkData = [];
+
+    // Load CSV file using PapaParse
+    Papa.parse(csvFilePath, {
+        download: true,
+        header: true,
+        complete: function(results) {
+            npkData = results.data;
+        }
+    });
+
+    function calculateNPK() {
+        const rainfall = parseFloat(document.getElementById('rainfall').value);
+        const temperature = parseFloat(document.getElementById('temperature').value);
+
+        // Basic validation
+        if (isNaN(rainfall) || isNaN(temperature)) {
+            document.getElementById('npkOutput').innerHTML = "Please enter valid values for both fields.";
+            return;
+        }
+
+        // Search for matching rainfall and temperature in the CSV data
+        let matchedRow = npkData.find(row => {
+            return parseFloat(row.Rainfall) === rainfall && parseFloat(row.Temperature) === temperature;
+        });
+
+        if (matchedRow) {
+            const nitrogen = matchedRow.Nitrogen;
+            const phosphorus = matchedRow.Phosphorus;
+            const potassium = matchedRow.Potassium;
+
+            document.getElementById('npkOutput').innerHTML = 
+                `NPK Values:<br> 
+                Nitrogen: ${nitrogen}<br>
+                Phosphorus: ${phosphorus}<br>
+                Potassium: ${potassium}`;
+        } else {
+            document.getElementById('npkOutput').innerHTML = "No matching data found for the entered values.";
+        }
+    }
+</script>
+
+</body>
+</html>
